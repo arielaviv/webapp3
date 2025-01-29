@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { CellValue, GameStatus } from './types';
+import type { CellValue, GameStatus, WinningLine } from './types';
 import { checkWinner, checkDraw } from './utils/gameLogic';
 import Board from './components/Board';
 import Status from './components/Status';
@@ -11,6 +11,8 @@ function App() {
   const [board, setBoard] = useState<CellValue[]>(INITIAL_BOARD);
   const [isXTurn, setIsXTurn] = useState(true);
   const [gameStatus, setGameStatus] = useState<GameStatus>('playing');
+  const [winningLine, setWinningLine] = useState<WinningLine | null>(null);
+  const [winner, setWinner] = useState<CellValue>(null);
 
   function handleCellClick(index: number) {
     if (board[index] || gameStatus !== 'playing') return;
@@ -22,6 +24,8 @@ function App() {
     const winResult = checkWinner(newBoard);
     if (winResult) {
       setGameStatus('won');
+      setWinner(winResult.winner);
+      setWinningLine(winResult.line);
     } else if (checkDraw(newBoard)) {
       setGameStatus('draw');
     } else {
@@ -33,6 +37,8 @@ function App() {
     setBoard(INITIAL_BOARD);
     setIsXTurn(true);
     setGameStatus('playing');
+    setWinningLine(null);
+    setWinner(null);
   }
 
   return (
@@ -40,12 +46,12 @@ function App() {
       <h1 className="title">Tic-Tac-Toe</h1>
       <Status
         status={gameStatus}
-        winner={null}
+        winner={winner}
         currentPlayer={isXTurn ? 'X' : 'O'}
       />
       <Board
         board={board}
-        winningLine={null}
+        winningLine={winningLine}
         gameOver={gameStatus !== 'playing'}
         onCellClick={handleCellClick}
       />
