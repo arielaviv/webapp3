@@ -1,0 +1,31 @@
+.cell {
+  width: 100px;
+  height: 100px;
+  background: transparent;
+  border: 2px solid #3f3f46;
+  color: #f4f4f5;
+  font-size: 2.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, box-shadow 0.2s;
+  font-family: inherit;
+}
+
+.cell:hover:not(:disabled) {
+  background: #27272a;
+}
+
+.cell:disabled {
+  cursor: default;
+}
+
+.cell--X {
+  color: #f4f4f5;
+}
+
+.cell--O {
+  color: #a1a1aa;
+}
